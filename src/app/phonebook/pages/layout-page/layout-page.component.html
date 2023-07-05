@@ -1,0 +1,37 @@
+
+<div class="d-flex flex-class">
+    
+    <!--------------------------- Left Box ----------------------------->
+
+    <div class="col-md-12 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #f7f7f7;">
+        <section class="main-content" style="width: 750px;">
+            
+<div class="d-flex justify-content-between">
+    <p></p>
+    <a href="" class="logout-button" (click)="logout()">Logout</a>
+</div>
+            <div class="container">
+                <div class="header-box d-flex justify-content-between">
+                    <h1>Contact List</h1>
+                    <div class="user-info">
+                        <div class="user-info__img d-flex">
+                            <h3 class="mt-2">{{username | titlecase}}</h3>
+                            <img clas src="assets/images/user1.jpg" alt="User Img" style="margin-left: 10px;">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <router-outlet></router-outlet>
+
+            </div>
+        </section>
+    </div> 
+
+    
+
+    
+
+ <!-------------------- ------ Right Box ---------------------------->
+     
+</div>
