@@ -62,12 +62,22 @@ export class ListContactsComponent {
     this.idUser = id;
   }
   confirmDelete(){
-    this.phoneBookService.deleteContact(this.idUser).subscribe( res => {
-      if(res) {
-        this.toastr.success('Nice', '¡Contact deleted!')
-        this.getContacts()
+    this.phoneBookService.deleteContact(this.idUser).subscribe(
+      {
+        next: (res) => {
+          if (res) {
+            this.toastr.success('Nice', '¡Contact deleted!');
+            this.getContacts();
+          }
+        },
+        error: (error) => {
+          this.toastr.warning('Ooppss!', 'Something is wrong..');
+        },
+        complete: () => {
+          console.log('Delete request completed');
+        }
       }
-    }, error => { this.toastr.warning('Ooppss!', 'Something is wrong..'); })
+    )
   }
 
   editContact(id:number){
@@ -95,11 +105,16 @@ export class ListContactsComponent {
       phoneNumber: this.editContactGroup.value.phoneNumber,
       comments: this.editContactGroup.value.comments,
     } as Contact;
-    this.phoneBookService.updateContact(id, data).subscribe( res => {
+    this.phoneBookService.updateContact(id, data).subscribe( 
+      {
+        next: (res) => {
         this.toastr.success('Nice', '¡Contact updated!')
         this.closeModal.nativeElement.click()
         this.getContacts()
-      }, error => { this.toastr.warning('Ooppss!', 'Something is wrong..'); })
+      },
+      error: (error) => { this.toastr.warning('Ooppss!', 'Something is wrong..');},
+      complete: ()=> console.log('Delete request completed')
+      })
     }
     this.formValidation = true;
  }

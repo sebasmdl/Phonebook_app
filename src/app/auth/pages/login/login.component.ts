@@ -19,21 +19,27 @@ export class LoginComponent {
    login(){
     const {userName, password} = this.loginFormGroup.value
     this.authService.login(userName, password)
-    .subscribe(res => {
-      if(res.token) {
-        this.router.navigate(['/']);
-        this.toastr.success('Nice to see you!', 'Welcome!');
-      }
-    },(error) => {
-      switch (error.status) {
-        case 400:
-          this.toastr.warning('Invalid credentials!', '!Ooppss!');
-          break;
-        case 403:
-          this.toastr.warning('Invalid credentials!','Ooppss!');
-          break;
+    .subscribe(
+      {
+        next: (res) => {
+          if(res.token) {
+            this.router.navigate(['/']);
+            this.toastr.success('Nice to see you!', 'Welcome!');
+          }
+      },
+      error: (error) => {
+        switch (error.status) {
+          case 400:
+            this.toastr.warning('Invalid credentials!', '!Ooppss!');
+            break;
+          case 403:
+            this.toastr.warning('Invalid credentials!','Ooppss!');
+            break;
+        }
+      },
+      complete: () => {
+        console.log('Request completed');
       }
     })
-
-     }
+  }
 }

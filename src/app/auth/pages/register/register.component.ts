@@ -19,24 +19,31 @@ export class RegisterComponent {
   register(){
     const {userName, password} = this.registerFormGroup.value
     this.authService.register(this.registerFormGroup.value)
-    .subscribe(res => {
-      if(res) {
-        this.router.navigate(['/login']);
-        this.toastr.success('Nice', 'User created');
-        return
+    .subscribe( 
+      {
+        next: (res) => {
+          if (res) {
+            this.router.navigate(['/login']);
+            this.toastr.success('Nice', 'User created');
+          }
+        },
+        error: (error) => {
+          let message = error.error[0]?.description ? error.error[0]?.description : error.error.title;
+          console.log(error);
+          switch (error.status) {
+            case 400:
+              this.toastr.warning(message, '!Ooppss!');
+              break;
+            case 403:
+              this.toastr.warning('Some fields are invalid!', 'Ooppss!');
+              break;
+          }
+        },
+        complete: () => {
+          console.log('Request completed');
+        }
       }
-    },(error) => {
-      let message = error.error[0]?.description ? error.error[0]?.description : error.error.title 
-      console.log(error)
-      switch (error.status) {
-        case 400:
-          this.toastr.warning(message, '!Ooppss!');
-          break;
-        case 403:
-          this.toastr.warning( 'Some fields are invalid!', 'Ooppss!');
-          break;
-      }
-    })
+    )
 
      }
 }
